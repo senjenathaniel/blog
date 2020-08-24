@@ -1,0 +1,10 @@
+.site-title {
+    text-align: center !important;
+    font-weight: bolder !important;
+    font-size: 6em;
+    margin-bottom: 9rem;
+}
+
+.orange-text {
+    color: #df6615;
+}

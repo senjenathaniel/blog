@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% for post in posts %}
+{% if msg %}
+<script>
+    alert(msg)
+</script>
+{% endif %}
+<p>{{ post }}</p>
+{% endfor %}
+{% endblock %}
