@@ -1,12 +1,13 @@
 from flask import current_app as app
 from flask import render_template, redirect, request, url_for
 import sqlite3 as sql
+import uuid as identity
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 
-from . db_functions import get_posts, delete_post, get_single_post, get_notes
 from . forms import CreatePost
+from . api import get_posts, get_post, update_post, delete_post, add_post
 
 """
     APPLICATION ROUTES
@@ -21,22 +22,25 @@ def index():
 
 @app.route("/update/<post_id>", methods=["GET", "POST"])
 def update(post_id):
+    pass
 
-    if request.method == "POST":
-        with get_single_post(post_id) as post:
-            print(post)
-    else:
-        return render_template("update.html", post=post)
+    post = get_post("id", post_id)
+
+#     if request.method == "POST":
+#         with get_single_post(post_id) as post:
+#             print(post)
+#     else:
+    return render_template("update.html", post=post)
 
 
 @app.route("/delete/<post_id>")
 def delete(post_id):
-    try:
-        delete_post(post_id)
-    except Exception as e:
-        print(e)
+    # try:
+    #     delete_post(post_id)
+    # except Exception as e:
+    #     print(e)
 
-    return "admin"
+    return
 
 
 @app.route("/admin")
@@ -48,27 +52,26 @@ def admin():
 
 @app.route("/create", methods=["GET", "POST"])
 def create():
+    pass
     form = CreatePost()
 
+    post = {
+        "_id": identity.uuid4(),
+        "userId": 1,
+        "id": 100,
+        "title": form.blog_title,
+        "body": form.blog_content
+    }
     if form.validate_on_submit():
         try:
-            with sql.connect("database.db") as conn:
-                c = conn.cursor()
-                c.execute(
-                    "INSERT INTO posts (title, content, category, date_created) VALUES (?, ?, ?, CURRENT_TIMESTAMP)",
-                    (form.blog_title, form.blog_category, form.blog_content),
-                )
-                conn.commit()
-
+            add_post(post)
+            redirect(url_for('index'))
         except Exception as e:
             print("There was an error: " + e)
-            conn.rollback()
-        finally:
-            conn.close()
-            return redirect(url_for("index.html", msg="Record added Successfully"))
 
-    print(form.blog_title)
-    return render_template("create_post.html", form=form)
+    # return redirect(url_for("index"))
+
+    return render_template("create.html", form=form)
 
 
 @app.route("/post", methods=["GET", "POST"])
