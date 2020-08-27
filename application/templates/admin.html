@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Blog posts</h2>
+<table class="u-full-width">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+        <tr>
+            <td>{{ post.id }}</td>
+            <td>{{ post.title[:25] }}</td>
+            <td>{{ post.body[:100] }}</td>
+            <td>
+                <div class="row">
+                    <div class="six columns"><a href="update/{{ post.id }}"><img class="icon"
+                                src="../static/img/icons/edit.png" alt="Update"></a></div>
+                    <div class="six columns"><a href="delete/{{ post.id }}"><img class="icon"
+                                src="../static/img/icons/trash.png" alt="Delete"></a></div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

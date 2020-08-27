@@ -4,7 +4,7 @@
 {% for post in posts %}
 <h4>{{ post.title[:15] }}</h4>
 <p>{{ post.body }}</p>
-<a href="update/{{ post.id }}">Read more</a>
+<a href="single_post/{{ post.id }}">Read more</a>
 <hr>
 {% endfor %}
 {% endblock %}

@@ -5,7 +5,6 @@ from wtforms.validators import DataRequired, Length
 
 class CreatePost(FlaskForm):
     blog_title = TextField('Blog Title', [DataRequired()])
-    blog_category = TextField('Category', [DataRequired()])
-    blog_content = TextAreaField('Blog Content', [DataRequired(), Length(
+    blog_content = TextAreaField('Content', [DataRequired(), Length(
         min=100, message="Your content is too little. Write some more!")])
-    submit = SubmitField('Create')
+    submit = SubmitField('Create Post')
